@@ -15,6 +15,7 @@ $User = Config::getObject('core.user.class');
       <th scope="col">Логин</th>
       <th scope="col">Email</th>
       <th scope="col">Зарегистрирован</th>
+      <th scope="col">Последний вход</th>
       <th scope="col"></th>
     </tr>
      </thead>
@@ -26,9 +27,11 @@ $User = Config::getObject('core.user.class');
 		. $user->id . ">{$user->login}</a>" ) ?> </td>
         <td>  <?= $user->email ?> </td>
         <td>  <?= $user->timestamp ?> </td>
+       <td>  <?= \application\models\UserModel::formatLastLogin($user->last_login, $user->timestamp) ?> </td>
         <td>  <?= $User->returnIfAllowed("admin/adminusers/edit",
                     "<a href=" . \ItForFree\SimpleMVC\Router\WebRouter::link("admin/adminusers/edit&id=". $user->id) 
                     . ">[Редактировать]</a>");?></td>
+
     </tr>
     <?php endforeach; ?>
     

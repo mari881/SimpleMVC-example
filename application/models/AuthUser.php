@@ -19,7 +19,8 @@ class AuthUser extends User
 	    $pass .= $siteAuthData['salt'];
 	    $passForCheck = password_verify($pass, $siteAuthData['pass']);
 	    if ($passForCheck) {
-		$result = true;
+            $User->updateLastLogin($login);
+		    $result = true;
 	    }
 	}	
         return $result;

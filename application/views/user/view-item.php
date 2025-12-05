@@ -15,4 +15,5 @@ $User = Config::getObject('core.user.class');
 </h2> 
 
 <p>Зарегистрирован <?= $viewAdminusers->timestamp ?></p>
+<p><strong>Последний вход:</strong> <?= \application\models\UserModel::formatLastLogin($viewAdminusers->last_login) ?></p>
 <p>E-mail: <?= $viewAdminusers->email ?></p>
