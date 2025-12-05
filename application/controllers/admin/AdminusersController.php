@@ -46,7 +46,12 @@ class AdminusersController extends \ItForFree\SimpleMVC\MVC\Controller
             if (!empty($_POST['saveNewUser'])) {
                 $Adminusers = new UserModel();
                 $newAdminusers = $Adminusers->loadFromArray($_POST);
+
+                if (isset($_POST['role'])) {//проверяем была ли роль
+                    $newAdminusers->role = $_POST['role'];
+                }
                 $newAdminusers->insert(); 
+
                 $this->redirect($Url::link("admin/adminusers/index"));
             } 
             elseif (!empty($_POST['cancel'])) {
@@ -73,8 +78,30 @@ class AdminusersController extends \ItForFree\SimpleMVC\MVC\Controller
             if (!empty($_POST['saveChanges'] )) {
                 $Adminusers = new UserModel();
                 $newAdminusers = $Adminusers->loadFromArray($_POST);
+
+                $newAdminusers->id = $id;
+
+                if (isset($_POST['role'])) {
+                    $newAdminusers->role = $_POST['role'];
+                }
+
+                if (empty($_POST['pass'])) {
+                   
+                    $currentUser = $Adminusers->getById($id);
+                    $newAdminusers->pass = $currentUser->pass;
+                    $newAdminusers->salt = $currentUser->salt;
+                } else {
+                    $newAdminusers->salt = rand(0, 1000000);
+                    $saltedPassword = $_POST['pass'] . $newAdminusers->salt;
+                    $newAdminusers->pass = password_hash($saltedPassword, PASSWORD_BCRYPT);
+                }
+
+
                 $newAdminusers->update();
-                $this->redirect($Url::link("admin/adminusers/index&id=$id"));
+
+              
+
+                $this->redirect($Url::link("admin/adminusers/index"));
             } 
             elseif (!empty($_POST['cancel'])) {
                 $this->redirect($Url::link("admin/adminusers/index&id=$id"));

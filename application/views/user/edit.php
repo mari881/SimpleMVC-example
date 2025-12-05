@@ -20,10 +20,18 @@ $User = Config::getObject('core.user.class');
     <h5>Введите имя пользователя</h5>
     <input type="text" name="login" placeholder="логин пользователя" value="<?= $viewAdminusers->login ?>"><br>
     <h5>Введите пароль</h5>
-    <input type="text" name="pass" placeholder="новый пароль" value=""><br>
+    <input type="text" name="pass" placeholder="новый пароль или пустая строка" value=""><br>
     <h5>Введите e-mail</h5>
     <input type="text" name="email"  placeholder="email" value="<?= $viewAdminusers->email ?>"><br>
     
+    <h5>Выберите роль</h5>
+    <select name="role" required>
+        <option value="admin" <?= $viewAdminusers->role == 'admin' ? 'selected' : '' ?>>Администратор</option>
+        <option value="auth_user" <?= $viewAdminusers->role == 'auth_user' ? 'selected' : '' ?>>Зарегистрированный пользователь</option>
+    </select><br>
+
+
+
     <input type="hidden" name="id" value="<?= $_GET['id']; ?>">
     <input type="submit" name="saveChanges" value="Сохранить">
     <input type="submit" name="cancel" value="Назад">
